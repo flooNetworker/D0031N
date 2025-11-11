@@ -1,6 +1,6 @@
 package com.d0031n.project.repository;
 
-import com.d0031n.demo.model.Student;
+import com.d0031n.project.model.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;

@@ -1,6 +1,6 @@
 package com.d0031n.project.controller;
 
-import com.d0031n.demo.service.StudentITSService;
+import com.d0031n.project.service.StudentITSService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

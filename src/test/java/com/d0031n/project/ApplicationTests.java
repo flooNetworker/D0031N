@@ -1,4 +1,4 @@
-package com.d0031n.demo;
+package com.d0031n.project;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

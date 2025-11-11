@@ -1,7 +1,7 @@
 package com.d0031n.project;
 
-import com.d0031n.demo.model.Student;
-import com.d0031n.demo.repository.StudentRepository;
+import com.d0031n.project.model.Student;
+import com.d0031n.project.repository.StudentRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
