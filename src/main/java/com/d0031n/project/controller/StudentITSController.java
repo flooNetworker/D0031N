@@ -1,4 +1,4 @@
-package com.d0031n.demo.controller;
+package com.d0031n.project.controller;
 
 import com.d0031n.demo.service.StudentITSService;
 import org.springframework.beans.factory.annotation.Autowired;

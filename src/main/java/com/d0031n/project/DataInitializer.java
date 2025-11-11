@@ -1,4 +1,4 @@
-package com.d0031n.demo;
+package com.d0031n.project;
 
 import com.d0031n.demo.model.Student;
 import com.d0031n.demo.repository.StudentRepository;
