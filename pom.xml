@@ -8,10 +8,10 @@
 		<version>3.5.7</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.D0031N</groupId>
+	<groupId>com.d0031n</groupId>
 	<artifactId>demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>D0031N </name>
+	<name>d0031n </name>
 	<description>D0031N project for Spring Boot</description>
 	<url/>
 	<licenses>

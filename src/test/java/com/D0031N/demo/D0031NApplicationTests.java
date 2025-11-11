@@ -1,10 +1,10 @@
-package com.D0031N.demo;
+package com.d0031n.demo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class D0031NApplicationTests {
+class d0031nApplicationTests {
 
 	@Test
 	void contextLoads() {
