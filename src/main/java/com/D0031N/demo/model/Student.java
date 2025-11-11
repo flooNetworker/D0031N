@@ -8,7 +8,9 @@ public class Student {
     private Integer id;
 
     private String name;
-    private String email;
+    private String userName;
+    private String personNumber;
+    
 
     public Student() {}
 
