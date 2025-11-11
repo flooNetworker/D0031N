@@ -20,10 +20,10 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) throws Exception {
         if (studentRepository.count() == 0) {
             var students = List.of(
-                new Student("Mimmi Sandström", "alicea", "19900101-1234"),
-                new Student("Anna Ponga", "bertilb", "19920202-2345"),
-                new Student("Isak Högström", "ceciliac", "19930303-3456"),
-                new Student("Maria Granath", "davidad", "19940404-4567")
+                new Student("Mimmi Sandström", "emeasx-9", "19900101-1234"),
+                new Student("Anna Ponga", "anpon-3", "19920202-2345"),
+                new Student("Isak Högström", "isahog-3", "19930303-3456"),
+                new Student("Maria Granath", "amiaga-3", "19940404-4567")
             );
             studentRepository.saveAll(students);
             System.out.println("Inserted sample students: " + studentRepository.findAll());
