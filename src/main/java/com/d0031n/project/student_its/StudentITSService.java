@@ -1,7 +1,5 @@
-package com.d0031n.project.service;
+package com.d0031n.project.student_its;
 
-import com.d0031n.project.model.Student;
-import com.d0031n.project.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +15,8 @@ public class StudentITSService {
         this.studentRepository = studentRepository;
     }
 
-    public String getStudentPersonNumber(String userName) {
-        Optional<Student> student = studentRepository.findByUserName(userName);
-        return student.map(Student::getPersonNumber).orElse("Student not found");
+    public String getStudentPersonNumberByUsername(String username) {
+        Optional<Student> student = studentRepository.findByUsername(username);
+        return student.map(Student::getPersonNumber).orElse("Student person number not found");
     }
 }

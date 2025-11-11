@@ -1,4 +1,4 @@
-package com.d0031n.project.model;
+package com.d0031n.project.student_its;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,14 +17,14 @@ public class Student {
     private Integer id;
 
     private String name;
-    private String userName;
+    private String username;
     private String personNumber;
 
     public Student() {}
 
-    public Student(String name, String userName, String personNumber) {
+    public Student(String name, String username, String personNumber) {
         this.name = name;
-        this.userName = userName;
+        this.username = username;
         this.personNumber = personNumber;
     }
 
@@ -44,12 +44,12 @@ public class Student {
         this.name = name;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
 
     public String getPersonNumber() {
@@ -62,6 +62,6 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student{id=" + id + ", name='" + name + "', userName='" + userName + "', personNumber='" + personNumber + "'}";
+        return "Student{id=" + id + ", name='" + name + "', username='" + username + "', personNumber='" + personNumber + "'}";
     }
 }

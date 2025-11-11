@@ -1,15 +1,12 @@
-package com.d0031n.project.controller;
+package com.d0031n.project.student_its;
 
-import com.d0031n.project.service.StudentITSService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
-
 
 @RestController
-@RequestMapping(path = "api/v1/students")
+@RequestMapping(path = "api/v1/studentdb")
 public class StudentITSController {
 
     private final StudentITSService studentITSService;
@@ -19,9 +16,9 @@ public class StudentITSController {
         this.studentITSService = studentITSService;
     }
 
-    @GetMapping("{username}/personnumber")
-    public ResponseEntity<String> getStudentPersonNumber(@PathVariable("username") String username) {
-        String pn = studentITSService.getStudentPersonNumber(username);
+    @GetMapping("/personnumber/{username}")
+    public ResponseEntity<String> getStudentPersonNumberByUsername(@PathVariable("username") String username) {
+        String pn = studentITSService.getStudentPersonNumberByUsername(username);
         if ("Student not found".equals(pn)) {
             return ResponseEntity.notFound().build();
         }
