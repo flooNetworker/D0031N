@@ -1,6 +1,5 @@
 package com.d0031n.project.config;
 
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
@@ -9,6 +8,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.function.Function;
 
 @Configuration
 public class JpaBuilderConfig {
@@ -31,13 +31,13 @@ public class JpaBuilderConfig {
     public EntityManagerFactoryBuilder entityManagerFactoryBuilder(
             HibernateJpaVendorAdapter jpaVendorAdapter,
             JpaProperties jpaProperties) {
-        
-        Map<String, String> properties = Collections.emptyMap();
+
+        Function<javax.sql.DataSource, Map<String, ?>> propertiesFunction = ds -> Collections.emptyMap();
 
         return new EntityManagerFactoryBuilder(
-            jpaVendorAdapter, 
-            properties, 
-            null 
+            jpaVendorAdapter,
+            propertiesFunction,
+            null
         );
     }
 }
