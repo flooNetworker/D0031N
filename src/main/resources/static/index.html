@@ -29,12 +29,10 @@
 
     <div id="app" class="max-w-6xl mx-auto space-y-6">
 
-        <!-- Header -->
         <header class="text-2xl font-bold text-gray-800 border-b pb-3 mb-4">
             Registrera Studieresultat
         </header>
 
-        <!-- Input/Filter Panel -->
         <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
             <h2 class="text-lg font-semibold mb-4 text-gray-700">Val av kurs och uppgift</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
@@ -50,15 +48,12 @@
                 <!-- Uppgift Dropdown -->
                 <div>
                     <label for="assignment" class="block text-sm font-medium text-gray-700 mb-1">Uppgift i Canvas (Modul)</label>
-                     <!-- TODO: Use GET Modules based on Course Code -->
                     <select id="assignment" class="w-full p-2 border border-gray-300 rounded-lg bg-white focus:ring-sky-500 focus:border-sky-500">
                         <option value="" disabled selected>Välj uppgift...</option>
-                        <option value="005">005 Inlämningsuppgift</option>
-                        <option value="006">006 Projekt</option>
                     </select>
                 </div>
                 
-                <!-- 3. Load Button -->
+                <!-- Hämta Studenter Button -->
                 <div>
                     <button onclick="loadData()" class="w-full bg-sky-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-sky-700 transition duration-150 shadow-md">
                         Hämta studenter
@@ -69,7 +64,7 @@
 
         <!-- Student Results Table Container -->
         <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100 mt-6">
-            <h2 class="text-lg font-semibold mb-4 text-gray-700">Studenter att registrera resultat för</h2>
+            <h2 class="text-lg font-semibold mb-4 text-gray-700">Resultat Översikt</h2>
             
             <div class="overflow-x-auto scroll-container">
                 <table class="min-w-full divide-y divide-gray-200">
@@ -90,7 +85,6 @@
                         </tr>
                     </thead>
                     <tbody id="studentTableBody" class="bg-white divide-y divide-gray-200">
-                        <!-- Table rows will be inserted here by JavaScript -->
                         <tr>
                             <td colspan="6" class="px-6 py-4 text-center text-gray-500">
                                 Vänligen välj kurskod och uppgift för att hämta studenter.
@@ -102,22 +96,20 @@
 
             <!-- Save Button -->
             <div class="mt-6 pt-4 border-t flex justify-end">
-                 <button onclick="handleSave()" class="bg-green-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-green-700 transition duration-150 shadow-md flex items-center">
+                 <button onclick="handleSave()" class="bg-sky-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-green-700 transition duration-150 shadow-md flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M7.707 10.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L10 12.586l-2.293-2.293z" />
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12z" clip-rule="evenodd" />
                     </svg>
-                    Spara & Registrera Alla
+                    Registrera studieresultat i ladok
                 </button>
             </div>
 
-            <!-- Message Box for Alerts -->
             <div id="messageBox" class="hidden mt-4 p-3 rounded-lg text-sm" role="alert"></div>
 
         </div>
     </div>
 
-    <!-- All JavaScript logic is now in the external app.js file -->
     <script src="app.js" defer></script>
 
 </body>

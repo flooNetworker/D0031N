@@ -16,20 +16,18 @@ public class Module {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "module_sequence")
     private Integer id;
     private String moduleDescription;
-    private String moduleAssignment;
     private String moduleCode;
     private String courseCode;
 
     public Module() {}
 
-    public Module(String moduleDescription, String moduleAssignment, String moduleCode, String courseCode) {
-        this(null, moduleDescription, moduleAssignment, moduleCode, courseCode);
+    public Module(String moduleDescription, String moduleCode, String courseCode) {
+        this(null, moduleDescription, moduleCode, courseCode);
     }
 
-    public Module(Integer id, String moduleDescription, String moduleAssignment, String moduleCode, String courseCode) {
+    public Module(Integer id, String moduleDescription, String moduleCode, String courseCode) {
         this.id = id;
         this.moduleDescription = moduleDescription;
-        this.moduleAssignment = moduleAssignment;
         this.moduleCode = moduleCode;
         this.courseCode = courseCode;
     }
@@ -42,27 +40,19 @@ public class Module {
         this.id = id;
     }
 
-    public String getmoduleDescription() {
+    public String getModuleDescription() {
         return moduleDescription;
     }
 
-    public void setmoduleDescription(String moduleDescription) {
+    public void setModuleDescription(String moduleDescription) {
         this.moduleDescription = moduleDescription;
     }
 
-    public String getmoduleAssignment() {
-        return moduleAssignment;
-    }
-
-    public void setmoduleAssignment(String moduleAssignment) {
-        this.moduleAssignment = moduleAssignment;
-    }
-
-    public String getmoduleCode() {
+    public String getModuleCode() {
         return moduleCode;
     }
 
-    public void setmoduleCode(String moduleCode) {
+    public void setModuleCode(String moduleCode) {
         this.moduleCode = moduleCode;
     }
 
@@ -79,7 +69,6 @@ public class Module {
         return "Module{" +
                 "id=" + id +
                 ", moduleDescription='" + moduleDescription + '\'' +
-                ", moduleAssignment='" + moduleAssignment + '\'' +
                 ", moduleCode='" + moduleCode + '\'' +
                 ", courseCode='" + courseCode + '\'' +
                 '}';
