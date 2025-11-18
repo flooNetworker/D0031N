@@ -24,8 +24,8 @@ public class EpokController {
         List<Map<String, String>> modules = epokService.getModulesByCourseCode(courseCode)
                 .stream()
                 .map(module -> Map.of(
-                        "code", module.getCode(),
-                        "description", module.getDescription()
+                        "code", module.getmoduleCode(),
+                        "description", module.getmoduleDescription()
                 ))
                 .collect(Collectors.toList());
 

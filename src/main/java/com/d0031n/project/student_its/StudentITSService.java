@@ -1,9 +1,9 @@
 package com.d0031n.project.student_its;
 
+import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class StudentITSService {
@@ -15,7 +15,11 @@ public class StudentITSService {
         this.studentRepository = studentRepository;
     }
 
-    public String getStudentPersonNumberByUsername(String username) {
+    public List<Student> findStudentsByUsernames(List<String> usernames) {
+        return studentRepository.findAllByUsernameIn(usernames);
+    }
+
+    public String getPersonNumberByUsername(String username) {
         Optional<Student> student = studentRepository.findByUsername(username);
         return student.map(Student::getPersonNumber).orElse("Student person number not found");
     }

@@ -15,20 +15,22 @@ public class Module {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "module_sequence")
     private Integer id;
-    private String description;
-    private String code;
+    private String moduleDescription;
+    private String moduleAssignment;
+    private String moduleCode;
     private String courseCode;
 
     public Module() {}
 
-    public Module(String description, String code, String courseCode) {
-        this(null, description, code, courseCode);
+    public Module(String moduleDescription, String moduleAssignment, String moduleCode, String courseCode) {
+        this(null, moduleDescription, moduleAssignment, moduleCode, courseCode);
     }
 
-    public Module(Integer id, String description, String code, String courseCode) {
+    public Module(Integer id, String moduleDescription, String moduleAssignment, String moduleCode, String courseCode) {
         this.id = id;
-        this.description = description;
-        this.code = code;
+        this.moduleDescription = moduleDescription;
+        this.moduleAssignment = moduleAssignment;
+        this.moduleCode = moduleCode;
         this.courseCode = courseCode;
     }
 
@@ -40,20 +42,28 @@ public class Module {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
+    public String getmoduleDescription() {
+        return moduleDescription;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setmoduleDescription(String moduleDescription) {
+        this.moduleDescription = moduleDescription;
     }
 
-    public String getCode() {
-        return code;
+    public String getmoduleAssignment() {
+        return moduleAssignment;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setmoduleAssignment(String moduleAssignment) {
+        this.moduleAssignment = moduleAssignment;
+    }
+
+    public String getmoduleCode() {
+        return moduleCode;
+    }
+
+    public void setmoduleCode(String moduleCode) {
+        this.moduleCode = moduleCode;
     }
 
     public String getCourseCode() {
@@ -68,8 +78,9 @@ public class Module {
     public String toString() {
         return "Module{" +
                 "id=" + id +
-                ", description='" + description + '\'' +
-                ", code='" + code + '\'' +
+                ", moduleDescription='" + moduleDescription + '\'' +
+                ", moduleAssignment='" + moduleAssignment + '\'' +
+                ", moduleCode='" + moduleCode + '\'' +
                 ", courseCode='" + courseCode + '\'' +
                 '}';
     }

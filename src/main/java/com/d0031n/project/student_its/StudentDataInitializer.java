@@ -19,7 +19,7 @@ public class StudentDataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (studentRepository.count() == 0) {
-            var students = List.of(
+            List<Student> students = List.of(
                 new Student("Mimmi Sandström", "emeasx-9", "18800101-1234"),
                 new Student("Anna Ponga", "annpon-3", "18820202-2345"),
                 new Student("Isak Högström", "isahog-3", "18830303-3456"),
