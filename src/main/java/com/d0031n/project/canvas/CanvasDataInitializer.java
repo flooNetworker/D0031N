@@ -35,14 +35,14 @@ public class CanvasDataInitializer implements CommandLineRunner {
             // D0031N - projekt (006)
             canvasEntries.add(new Canvas("emeasx-9", "D0031N", "006", "G"));
             canvasEntries.add(new Canvas("annpon-3", "D0031N", "006", "G"));
-            canvasEntries.add(new Canvas("isahog-3", "D0031N", "006", "VG"));
+            canvasEntries.add(new Canvas("isahog-3", "D0031N", "006", "G"));
             canvasEntries.add(new Canvas("amiaga-3", "D0031N", "006", "G"));
 
             // D0031N - inlämning (005)
             canvasEntries.add(new Canvas("emeasx-9", "D0031N", "005", "VG"));
-            canvasEntries.add(new Canvas("annpon-3", "D0031N", "005", "G"));
-            canvasEntries.add(new Canvas("isahog-3", "D0031N", "005", "U"));
-            canvasEntries.add(new Canvas("amiaga-3", "D0031N", "005", "G"));
+            canvasEntries.add(new Canvas("annpon-3", "D0031N", "005", "VG"));
+            canvasEntries.add(new Canvas("isahog-3", "D0031N", "005", "VG"));
+            canvasEntries.add(new Canvas("amiaga-3", "D0031N", "005", "VG"));
 
             canvasRepository.saveAll(canvasEntries);
             System.out.println("Inserted sample canvas entries for all students into canvasdb: " + canvasRepository.findAll());

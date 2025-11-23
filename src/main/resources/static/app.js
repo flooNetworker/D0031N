@@ -201,6 +201,7 @@ async function handleSave() {
 
     // Håll reda på hur många som sparats, hoppats över och misslyckats
     let savedCount = 0;
+    let updatedCount = 0;
     let skippedCount = 0;
     let errorCount = 0;
 
@@ -216,24 +217,49 @@ async function handleSave() {
         }
 
         try {
-            const response = await fetch(`/api/v1/ladokdb/ladok/${courseCode}/${student.personNumber}/${moduleCode}/${date}/${ladokGrade}`, {
-                method: 'POST'
-            });
+            // Kolla först om studenten redan finns i Ladok
+            const existingResponse = await fetch(`/api/v1/ladokdb/ladok/${courseCode}/${student.personNumber}/${moduleCode}`);
+            
+            let response;
+            let resultText;
+
+            if (existingResponse.ok) {
+                // Studenten finns redan - kolla om betyget har ändrats
+                const existingData = await existingResponse.json();
+                
+                if (existingData.grade !== ladokGrade || existingData.date !== date) {
+                    // Betyget eller datumet har ändrats - uppdatera med PUT
+                    response = await fetch(`/api/v1/ladokdb/ladok/${courseCode}/${student.personNumber}/${moduleCode}/${date}/${ladokGrade}`, {
+                        method: 'PUT'
+                    });
+                    resultText = await response.text();
+                } else {
+                    // Betyget är samma - skippa
+                    skippedCount++;
+                    continue;
+                }
+            } else {
+                // Studenten finns inte - registrera ny med POST
+                response = await fetch(`/api/v1/ladokdb/ladok/${courseCode}/${student.personNumber}/${moduleCode}/${date}/${ladokGrade}`, {
+                    method: 'POST'
+                });
+                resultText = await response.text();
+            }
 
             if (!response.ok) {
-                const errorText = await response.text();
-                showMessage(`Fel för ${studentName}: ${errorText}`, 'error');
+                showMessage(`Fel för ${studentName}: ${resultText}`, 'error');
                 errorCount++;
-                throw new Error(errorText || 'Serverfel');
+                throw new Error(resultText || 'Serverfel');
             }
             
-            const resultText = await response.text();
-            if (resultText !== "Registrerad") {
+            if (resultText === "Registrerad") {
+                savedCount++;
+            } else if (resultText === "Uppdaterad") {
+                updatedCount++;
+            } else {
                 errorCount++;
                 throw new Error('Registrering hindrad');
             }
-
-            savedCount++;
 
         } catch (error) {
             console.error(`Misslyckades att spara för ${student.username}:`, error);
@@ -242,6 +268,7 @@ async function handleSave() {
 
     let summaryParts = [];
     if (savedCount > 0) summaryParts.push(`${savedCount} ${savedCount === 1 ? 'registrerad' : 'registrerade'}`);
+    if (updatedCount > 0) summaryParts.push(`${updatedCount} ${updatedCount === 1 ? 'uppdaterad' : 'uppdaterade'}`);
     if (skippedCount > 0) summaryParts.push(`${skippedCount} ${skippedCount === 1 ? 'skippad' : 'skippade'}`);
     if (errorCount > 0) summaryParts.push(`${errorCount} ${errorCount === 1 ? 'hindrad' : 'hindrade'}`);
     

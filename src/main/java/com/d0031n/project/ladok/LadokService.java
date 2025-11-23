@@ -25,4 +25,19 @@ public class LadokService {
         return ladokRepository.save(ladok);
 
     }
+
+    public Ladok updateResult(String personNumber, String courseCode, String module, LocalDate date, String grade) {
+        Optional<Ladok> existingEntry = ladokRepository.findByPersonNumberAndCourseCodeAndModule(personNumber, courseCode, module);
+        if (existingEntry.isEmpty()) {
+            throw new IllegalStateException("Ingen registrering hittades för denna student och modul");
+        }
+        Ladok ladok = existingEntry.get();
+        ladok.setGrade(grade);
+        ladok.setDate(date);
+        return ladokRepository.save(ladok);
+    }
+
+    public Optional<Ladok> getResult(String personNumber, String courseCode, String module) {
+        return ladokRepository.findByPersonNumberAndCourseCodeAndModule(personNumber, courseCode, module);
+    }
 }
