@@ -1,8 +1,8 @@
 package com.d0031n.project.canvas;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+// Service (@Service)
+// Innehåller business logic
+// Hämtar data från andra webservices (Student & Epok) med RestTemplate, använder böna i application.java
+// Kommunicerar med Repository för att hämta från Canvas-databasen
 @Service
 public class CanvasService {
 
@@ -31,6 +35,7 @@ public class CanvasService {
         ResponseEntity<String> studentResponse = restTemplate.getForEntity(studentUrl, String.class);
         String personNumber = studentResponse.getBody();
 
+        // Eftersom epok returnerar en lista av moduler, använder vi exchange med ParameterizedTypeReference
         String epokUrl = epokBaseUrl + "/modules/" + courseCode;
         ResponseEntity<List<Map<String, String>>> epokResponse = restTemplate.exchange(
                 epokUrl,
@@ -55,6 +60,7 @@ public class CanvasService {
         return canvasRepository.findUsernamesByCourseCodeAndModuleCode(courseCode, moduleCode);
     }
 
+    // Strömmar och lambdas mycket användbart i arbetslivet! Mycket bra att lära sig
     public Map<String, String> getGradesForModule(String courseCode, String moduleCode) {
         List<Canvas> canvasEntries = canvasRepository.findByCourseCodeAndModuleCode(courseCode, moduleCode);
         return canvasEntries.stream()

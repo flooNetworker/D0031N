@@ -16,7 +16,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @EnableJpaRepositories(
-        // This tells Spring that CanvasRepository belongs to this config
         basePackages = "com.d0031n.project.canvas",
         entityManagerFactoryRef = "canvasEntityManager",
         transactionManagerRef = "canvasTransactionManager"

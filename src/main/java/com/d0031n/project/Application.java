@@ -12,10 +12,9 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-    // This bean is required to make HTTP calls to other internal API endpoints
+    // Den här bönan bean behövs för att göra HTTP-anrop till andra interna API-endpoints
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
-
 }

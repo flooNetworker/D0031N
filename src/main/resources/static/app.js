@@ -97,7 +97,7 @@ async function loadData() {
     showMessage(`Hämtar studenter för ${courseCode}...`, 'info');
 
     try {
-        // Get the list of enrolled usernames for the selected course/module
+        // Hämta listan med registrerade användarnamn för den valda kursen/modulen
         const usernamesResponse = await fetch(`/api/v1/canvas/usernames/${courseCode}/${moduleCode}`);
         if (!usernamesResponse.ok) throw new Error('Could not fetch usernames.');
         const usernames = await usernamesResponse.json();
@@ -108,7 +108,7 @@ async function loadData() {
             return;
         }
 
-        // Get student details (via POST (no size limit)) and module grades (via GET) in parallel for efficiency
+        // Hämta studentdetaljer (via POST (ingen storleksbegränsning)) och modulbetyg (via GET) parallellt för effektivitet
         const [studentsResponse, gradesResponse] = await Promise.all([
             fetch('/api/v1/studentdb/students/by-usernames', {
                 method: 'POST',
@@ -126,7 +126,7 @@ async function loadData() {
         
         currentStudents = enrolledStudents;
 
-        // Render the table with all the data
+        // tabellen med hämtade studenter
         renderStudentTable(enrolledStudents, grades);
         showMessage(`Hittade ${enrolledStudents.length} studenter`, 'success');
 
@@ -149,13 +149,13 @@ function renderStudentTable(students, canvasGrades) {
         const row = tableBody.insertRow();
         const canvasGrade = canvasGrades[student.username] || 'Ej betygsatt';
 
-        // Name + username and Person Number (hover)
+        // Namn + användarnamn och personnummer (hover)
         row.insertCell().innerHTML = `<div class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-900" title="${student.personNumber}">${student.name} (${student.username})</div>`;
         
-        //Canvas grade
+        //Canvas betyg
         row.insertCell().innerHTML = `<div class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">${canvasGrade}</div>`;
 
-        // Ladok Grade Dropdown
+        // Ladok betyg Dropdown
         const ladokGradeCell = row.insertCell();
         const ladokGradeSelect = document.createElement('select');
         ladokGradeSelect.id = `ladok-grade-${student.username}`;
@@ -176,7 +176,7 @@ function renderStudentTable(students, canvasGrades) {
         });
         ladokGradeCell.appendChild(ladokGradeSelect);
         
-        // Date Input
+        // Datum input
         const dateCell = row.insertCell();
         const dateInput = document.createElement('input');
         dateInput.type = 'date';
@@ -187,7 +187,7 @@ function renderStudentTable(students, canvasGrades) {
     });
 }
 
-// Handles saving result in ladok when the "Registrera studieresultat i ladok" button is clicked
+// Sparar resultat i ladok när "Registrera studieresultat i ladok" knappen klickas
 async function handleSave() {
     const courseCode = document.getElementById('courseCode').value;
     const moduleCode = document.getElementById('assignment').value;
@@ -199,12 +199,19 @@ async function handleSave() {
 
     showMessage("Registrerar betyg i Ladok...", 'info');
 
+    // Håll reda på hur många som sparats, hoppats över och misslyckats
+    let savedCount = 0;
+    let skippedCount = 0;
+    let errorCount = 0;
+
     for (const student of currentStudents) {
         const ladokGrade = document.getElementById(`ladok-grade-${student.username}`).value;
         const date = document.getElementById(`date-${student.username}`).value;
-
-        // Skip students if grade or date is not selected
-        if (!ladokGrade || !date) {
+        const studentName = student.name;
+        
+        // Hoppa över studenter om inget betyg och inget datum är valt
+        if (!ladokGrade && !date || ladokGrade && !date || !ladokGrade && date) {
+            skippedCount++;
             continue;
         }
 
@@ -215,17 +222,31 @@ async function handleSave() {
 
             if (!response.ok) {
                 const errorText = await response.text();
+                showMessage(`Fel för ${studentName}: ${errorText}`, 'error');
+                errorCount++;
                 throw new Error(errorText || 'Serverfel');
             }
             
             const resultText = await response.text();
             if (resultText !== "Registrerad") {
+                errorCount++;
                 throw new Error('Registrering hindrad');
             }
+
+            savedCount++;
 
         } catch (error) {
             console.error(`Misslyckades att spara för ${student.username}:`, error);
         }
     }
-    showMessage("Registrering slutförd.", 'success');
+
+    let summaryParts = [];
+    if (savedCount > 0) summaryParts.push(`${savedCount} ${savedCount === 1 ? 'registrerad' : 'registrerade'}`);
+    if (skippedCount > 0) summaryParts.push(`${skippedCount} ${skippedCount === 1 ? 'skippad' : 'skippade'}`);
+    if (errorCount > 0) summaryParts.push(`${errorCount} ${errorCount === 1 ? 'hindrad' : 'hindrade'}`);
+    
+    const summaryMessage = `Registrering slutförd: ${summaryParts.join(', ')}.`;
+    const messageType = errorCount > 0 ? 'error' : 'success';
+    showMessage(summaryMessage, messageType);
+    
 }

@@ -1,74 +1,67 @@
-# Result Registration System (D0031N)
+# Registrera studieresultat (D0031N)
 
-A RESTful web service built with Spring Boot that acts as an integration layer for a student result registration system.
+En webbapplikation för att registrera studieresultat i Ladok. Byggd med Spring Boot och fyra separata databaser.
 
-## Project Overview
+## Vad gör applikationen?
 
-This project is a prototype of a registration system for student results. Its core purpose is to connect a simple web GUI with four separate, conceptual backend services, each backed by its own dedicated database. This simulates a real-world microservice environment where different systems manage their own data.
+Detta är ett system där lärare kan:
+1. Välja en kurs och uppgift
+2. Se vilka studenter som är registrerade (från Canvas)
+3. Registrera betyg i Ladok med personnummer och datum
 
-The application provides a user interface for a teacher to select a course and an assignment, view the enrolled students with their grades from the learning platform (Canvas), and then register a final grade in the official reporting system (Ladok) including the personnumber that is not stored in Canvas.
+Systemet kopplar ihop information från olika källor - precis som det fungerar i verkligheten
 
-## System Architecture
+## Systemets delar
 
-The application uses separate data source configurations to manage isolation between the four services.
+Applikationen använder fyra olika databaser som simulerar de olika systemen:
 
-*   **Canvas Service (`canvasdb`)**: Manages course enrollments and grades from the learning platform. It acts as the source for which students are in a course and what their preliminary grades are.
-*   **Epok Service (`epokdb`)**: Manages official course and module data, such as module codes and descriptions.
-*   **StudentITS Service (`studentdb`)**: Manages student identity data (name, username, personnummer).
-*   **Ladok Service (`ladokdb`)**: The final registration target for official grades and examination dates.
+*   **Canvas** (`canvasdb`): Kursinformation och vilka studenter som är registrerade på varje kurs/modul
+*   **Epok** (`epokdb`): Officiella kurskoder och moduler (t.ex. "004 - inlämningsuppgifter")
+*   **StudentITS** (`studentdb`): Studentuppgifter (namn, användarnamn, personnummer)
+*   **Ladok** (`ladokdb`): Där betyg registreras officiellt med datum och personnummer
 
-> **Why Spring Boot for Integration?**
->
-> Spring Boot is excellent for building such integration applications because it prioritizes convention over configuration, allowing for the rapid creation of stand-alone, production-ready RESTful web services. Its powerful dependency injection and auto-configuration make it the ideal central gateway for connecting disparate systems. This project specifically leverages Spring Boot's capability to manage multiple separate databases within a single application instance, simplifying the complex data isolation required by the student result registration process.
+Alla databaser är H2-databaser som körs i minnet - det betyder att all data försvinner när du stänger av programmet
 
-## Databases and H2 Console
+## Inspektera databaserna
 
-This project uses four separate H2 in-memory databases to simulate the isolated services. This means all data is reset every time the application restarts.
+Du kan se vad som finns i databaserna via H2-konsolen:
 
-You can inspect the data in each database using the built-in H2 console.
+1.  Starta applikationen
+2.  Gå till [http://localhost:8080/h2-console](http://localhost:8080/h2-console)
+3.  Använd användarnamn `sa` (inget lösenord)
+4.  Välj vilken databas du vill se genom att ändra **JDBC URL**:
 
-1.  Make sure the application is running.
-2.  Navigate to [http://localhost:8080/h2-console](http://localhost:8080/h2-console) in your browser.
-3.  On the login screen, use the default username `sa` and leave the password blank.
-4.  To connect to a specific database, copy one of the following URLs into the **JDBC URL** field:
+    *   Canvas: `jdbc:h2:mem:canvasdb`
+    *   Epok: `jdbc:h2:mem:epokdb`
+    *   StudentITS: `jdbc:h2:mem:studentdb`
+    *   Ladok: `jdbc:h2:mem:ladokdb`
 
-    *   **Canvas DB**: `jdbc:h2:mem:canvasdb`
-    *   **Epok DB**: `jdbc:h2:mem:epokdb`
-    *   **StudentITS DB**: `jdbc:h2:mem:studentdb`
-    *   **Ladok DB**: `jdbc:h2:mem:ladokdb`
+5.  Klicka "Connect" och kör SQL!
 
-5.  Click "Connect". You can now run SQL queries against the selected database.
+## Testdata
 
+När applikationen startar fylls databaserna automatiskt med testdata. Det finns färdiga kurser, studenter och betyg att arbeta med direkt. Detta sker i klasser som heter `*DataInitializer.java`.
 
-## Data Initialization
+## Kom igång
 
-For demonstration purposes, each database is populated with sample data upon application startup. This is handled by `CommandLineRunner` beans located in each service package (e.g., `CanvasDataInitializer.java`, `StudentDataInitializer.java`). These initializers are responsible for creating the initial set of courses, modules, students, and grades that you see in the GUI and can inspect via the H2 console. This ensures the application is immediately usable without any manual data setup.
+### Förutsättningar
 
-## Getting Started
+*   Java 17 eller nyare
+*   Maven 3.6+
 
-Follow these steps to build and run the application locally.
+### Starta projektet
 
-### Prerequisites
-
-*   Java Development Kit (JDK) 17 or newer.
-*   Apache Maven 3.6+
-
-### Installation and Running
-
-1.  **Build the Application**
-    This command cleans the project, compiles the code, runs tests, and packages the application into an executable JAR file in the `target/` directory.
+1.  **Bygg projektet**
     ````bash
     mvn clean install
     ````
 
-2.  **Run the Server**
-    This command starts the Spring Boot application. The server will run on `http://localhost:8080`.
+2.  **Starta servern**
     ````bash
     mvn spring-boot:run
     ````
-    When you see the log message `Started Application in X seconds`, the server is ready.
+    Vänta tills du ser meddelandet `Started Application in X seconds`.
 
-3.  **Use the Client GUI**
-    Open your web browser and navigate to:
-    [http://localhost:8080](http://localhost:8080)
+3.  **Öppna webbgränssnittet**
+    Gå till [http://localhost:8080](http://localhost:8080) i din webbläsare
 

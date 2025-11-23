@@ -1,11 +1,15 @@
 package com.d0031n.project.canvas;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import java.util.List;
 
+// Repository (@Repository)
+// Pratar direkt med databasen
+// Spring genererar SQL-kod automatiskt baserat på metodnamn eller custom queries för komplex sökningar
 @Repository
 public interface CanvasRepository extends JpaRepository<Canvas, Integer> {
 
