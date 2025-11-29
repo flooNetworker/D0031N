@@ -9,7 +9,7 @@ Detta är ett system där lärare kan:
 2. Se vilka studenter som är registrerade (från Canvas)
 3. Registrera betyg i Ladok med personnummer och datum
 
-Systemet kopplar ihop information från olika källor - precis som det fungerar i verkligheten. Vi har använt oss av Github Copilot som hjälp med lärandet av uppgiften. 
+Systemet kopplar ihop information från olika källor - precis som det fungerar i verkligheten. Vi har använt oss av Github Copilot som hjälp med lärandet av uppgiften.
 
 ## Systemets delar
 
