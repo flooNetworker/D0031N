@@ -65,3 +65,10 @@ När applikationen startar fylls databaserna automatiskt med testdata. Det finns
 3.  **Öppna webbgränssnittet**
     Gå till [http://localhost:8080](http://localhost:8080) i din webbläsare
 
+## CANVAS API INTEGRATION
+
+Canvas API-token läggs i application.properties innan du startar applikationen.
+
+Du kan även välja vilken kalenderhändelse som ska uppdateras i Canvas genom att ändra värdet på `canvas.calendar.context` i application.properties
+
+
