@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Schema Hanteraren</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; max-width: 1200px; margin: 0 auto; }
+        
+        /* Table Styles */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1); table-layout: fixed; }
+        th { background-color: #f8f9fa; border: 1px solid #dee2e6; padding: 12px; text-align: left; }
+        
+        td { border: 1px solid #dee2e6; padding: 12px; vertical-align: top; }
+        
+        input { 
+            width: 100%; 
+            padding: 8px; 
+            border: 1px solid #ced4da; 
+            border-radius: 4px; 
+            box-sizing: border-box;
+        }
+        
+        textarea { 
+            width: 100%; 
+            height: 60px; 
+            padding: 8px; 
+            border: 1px solid #ced4da; 
+            border-radius: 4px; 
+            font-family: sans-serif; 
+            box-sizing: border-box; 
+            resize: vertical;
+        }
+        
+        /* Button Styles */
+        .btn-primary { background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        .btn-primary:hover { background-color: #0069d9; }
+        
+        .btn-success { background-color: #28a745; color: white; padding: 12px 24px; border: none; border-radius: 4px; cursor: pointer; font-size: 18px; }
+        .btn-success:hover { background-color: #218838; }
+        
+        .top-controls { margin-bottom: 20px; }
+        
+        .bottom-controls { margin-top: 30px; text-align: right; padding-top: 10px; }
+        
+        #status { margin-left: 15px; font-weight: bold; color: #495057; }
+    </style>
+</head>
+<body>
+
+    <h1>Schema Hanteraren</h1>
+
+    <div class="top-controls">
+        <button onclick="loadPreview()" class="btn-primary">Hämta schema</button>
+        <span id="status"></span>
+    </div>
+
+    <table id="scheduleTable">
+        <thead>
+            <tr>
+                <th style="width: 15%">Title</th>
+                <th style="width: 15%">Start Time</th>
+                <th style="width: 15%">Location</th>
+                <th style="width: 40%">Description</th>
+                <th style="width: 15%">Context</th>
+            </tr>
+        </thead>
+        <tbody>
+            </tbody>
+    </table>
+
+    <div class="bottom-controls" id="bottomActionArea" style="display:none;">
+        <button onclick="syncToCanvas()" class="btn-success">Synkronisera till Canvas &rarr;</button>
+    </div>
+
+    <script>
+        let currentEvents = [];
+
+        async function loadPreview() {
+            try {
+                document.getElementById("status").innerText = "Laddar...";
+                
+                const response = await fetch('/api/v1/schedule/preview');
+                currentEvents = await response.json();
+                
+                renderTable();
+                
+                document.getElementById("bottomActionArea").style.display = "block";
+                document.getElementById("status").innerText = "";
+            } catch (error) {
+                console.error(error);
+                document.getElementById("status").innerText = "Error loading schedule.";
+            }
+        }
+
+        function renderTable() {
+            const tbody = document.querySelector("#scheduleTable tbody");
+            tbody.innerHTML = "";
+
+            currentEvents.forEach((event, index) => {
+                const tr = document.createElement("tr");
+
+                tr.innerHTML = `
+                    <td><input type="text" value="${event.title || ''}" onchange="updateEvent(${index}, 'title', this.value)"></td>
+                    <td><input type="text" value="${event.start_at || ''}" onchange="updateEvent(${index}, 'start_at', this.value)"></td>
+                    <td><input type="text" value="${event.location_name || ''}" onchange="updateEvent(${index}, 'location_name', this.value)"></td>
+                    <td><textarea onchange="updateEvent(${index}, 'description', this.value)">${event.description || ''}</textarea></td>
+                    <td><input type="text" value="${event.context_code || ''}" onchange="updateEvent(${index}, 'context_code', this.value)"></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function updateEvent(index, field, value) {
+            currentEvents[index][field] = value;
+        }
+
+        async function syncToCanvas() {
+            if(!confirm("Are you sure you want to publish these events to Canvas?")) return;
+
+            const btn = document.querySelector(".btn-success");
+            const originalText = btn.innerText;
+            btn.innerText = "Syncing...";
+            btn.disabled = true;
+            
+            try {
+                const response = await fetch('/api/v1/schedule/confirm', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(currentEvents)
+                });
+
+                if (response.ok) {
+                    const msg = await response.text();
+                    alert(msg);
+                    window.location.reload();
+                } else {
+                    alert("Error syncing to Canvas.");
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Error connecting to server.");
+                btn.innerText = originalText;
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

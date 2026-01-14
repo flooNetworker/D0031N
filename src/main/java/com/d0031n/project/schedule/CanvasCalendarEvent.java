@@ -21,6 +21,8 @@ public class CanvasCalendarEvent {
     @JsonProperty("description")
     private String description;
 
+    public CanvasCalendarEvent() {}
+
     public CanvasCalendarEvent(String contextCode, String title, String startAt, String endAt, String locationName, String description) {
         this.contextCode = contextCode;
         this.title = title;
@@ -29,6 +31,13 @@ public class CanvasCalendarEvent {
         this.locationName = locationName;
         this.description = description;
     }
+
+    public void setContextCode(String contextCode) { this.contextCode = contextCode; }
+    public void setTitle(String title) { this.title = title; }
+    public void setStartAt(String startAt) { this.startAt = startAt; }
+    public void setEndAt(String endAt) { this.endAt = endAt; }
+    public void setLocationName(String locationName) { this.locationName = locationName; }
+    public void setDescription(String description) { this.description = description; }
 
     public String getContextCode() { return contextCode; }
     public String getTitle() { return title; }

@@ -23,20 +23,20 @@ public class ScheduleIntegrationService {
         this.canvasSyncService = canvasSyncService;
     }
 
-    public String syncSchedule() {
-        // Hämta schemat (just nu hårdkodat i schema.json som görs till ett TimeEditReservation-objekt  av TimeEditService)
+    public List<CanvasCalendarEvent> getDraftEvents() {
         List<TimeEditReservation> reservations = timeEditService.fetchSchedule();
-        int count = 0;
+        
+        return reservations.stream()
+                .map(this::mapToCanvasEvent)
+                .toList();
+    }
 
-        // Hämta alla reservations och mappa till CanvasCalendarEvent
-        for (TimeEditReservation res : reservations) {
-            CanvasCalendarEvent event = mapToCanvasEvent(res);
-            
-            // Skicka event till Canvas
+    public String syncEvents(List<CanvasCalendarEvent> events) {
+        int count = 0;
+        for (CanvasCalendarEvent event : events) {
             canvasSyncService.createEvent(event);
             count++;
         }
-        
         return "Synkronisering klar! Skickade " + count + " events till Canvas (i kalender " + targetContextCode + ").";
     }
 
@@ -53,7 +53,7 @@ public class ScheduleIntegrationService {
         // Index 8: Zoom-länk
         // Index 9: Campus
         // Index 10: Övrig text
-        String title = res.getColumns().size() > 0 ? res.getColumns().get(0) : "Lektion";
+        String title = !res.getColumns().isEmpty() ? res.getColumns().get(0) : "Lektion";
         String location = res.getColumns().size() > 1 ? res.getColumns().get(1) : "";
         
         StringBuilder description = new StringBuilder("Importerad från TimeEdit.\n");

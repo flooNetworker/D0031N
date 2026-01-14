@@ -24,7 +24,7 @@
             "enddate": "2025-11-06",
             "endtime": "14:30",
             "columns": [
-                "Testar",
+                "Lektion 1",
                 "Zoom, A1301*",
                 "D0031N, D0031N",
                 "Enterprise Architecture och SOA, Enterprise Architecture och SOA",
@@ -44,7 +44,7 @@
             "enddate": "2025-11-13",
             "endtime": "14:30",
             "columns": [
-                "att",
+                "Lektion 2",
                 "Zoom, A1301*",
                 "D0031N, D0031N",
                 "Enterprise Architecture och SOA, Enterprise Architecture och SOA",
@@ -64,7 +64,7 @@
             "enddate": "2025-11-20",
             "endtime": "14:30",
             "columns": [
-                "lägga",
+                "Lektion 3",
                 "Zoom, A1301*",
                 "D0031N, D0031N",
                 "Enterprise Architecture och SOA, Enterprise Architecture och SOA",
@@ -84,27 +84,7 @@
             "enddate": "2025-11-27",
             "endtime": "14:30",
             "columns": [
-                "in",
-                "Zoom, A1301*",
-                "D0031N, D0031N",
-                "Enterprise Architecture och SOA, Enterprise Architecture och SOA",
-                "",
-                "Jean Claude Byungura",
-                "",
-                "",
-                "https://ltu-se.zoom.us/j/64796979928",
-                "Luleå",
-                ""
-            ]
-        },
-        {
-            "id": "1139376",
-            "startdate": "2025-12-04",
-            "starttime": "13:00",
-            "enddate": "2025-12-04",
-            "endtime": "14:30",
-            "columns": [
-                "schema!",
+                "Lektion 4",
                 "Zoom, A1301*",
                 "D0031N, D0031N",
                 "Enterprise Architecture och SOA, Enterprise Architecture och SOA",
